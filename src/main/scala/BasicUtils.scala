@@ -7,7 +7,10 @@ object BasicUtils {
   def defineObject : Json =
     Json.obj("key1" -> jString("String"), "key2" -> jString("String2"))
 
-  def defineString(str: String): Json = jString(str)
+  def defineString(str: String): Json = {
+      //TODO: define jsonString
+      jString("need to modify")
+  }
 
   def accessJsonObject: Option[String] = {
     val innerObject: Json = ("innerkey1", jString("innervalue1")) ->:
@@ -17,14 +20,8 @@ object BasicUtils {
       ("outerkey2", jFalse) ->:
       jEmptyObject
 
-    var valInLevel2Lens = jObjectPL >=>
-    jsonObjectPL("outerkey1") >=>
-    jObjectPL >=>
-    jsonObjectPL("innerkey2") >=>
-    jStringPL
-
-
-    return valInLevel2Lens.get(complexObject)
+    //TODO: return  value of outerkey1->innerkey2
+    return Option("")
 
   }
 
@@ -40,21 +37,18 @@ object BasicUtils {
     var cursor = complexObject.hcursor
 
 
-
-    return (cursor --\ "outerkey1" --\ "innerkey2").as[String].toOption
+//TODO: RETURN Value of outerkey1->innerkey2
+    return Option("")
 
   }
 
   def fromStringToJson(str: String): Json = {
-    val str:String = "{\"id\":\"001\", \"info\":{\"name\":\"sc\"}}"
-    Parse.parse(str) match {
-      case \/-(a) => a
-    }
+    //TODO: parse json string to JsonObject
+     jString(str)
   }
 
   def fromJsonToScalaType(json: Json) = {
-    json.assoc
+    //TODO: convert Json to scala type
   }
-
 
 }
