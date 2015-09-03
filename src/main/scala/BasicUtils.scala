@@ -8,8 +8,7 @@ object BasicUtils {
     Json.obj("key1" -> jString("String"), "key2" -> jString("String2"))
 
   def defineString(str: String): Json = {
-      //TODO: define jsonString
-      jString("need to modify")
+      jString(str)
   }
 
   def accessJsonObject: Option[String] = {
@@ -20,9 +19,13 @@ object BasicUtils {
       ("outerkey2", jFalse) ->:
       jEmptyObject
 
-    //TODO: return  value of outerkey1->innerkey2
-    return Option("")
+    var complexObjectPL = jObjectPL >=>
+    jsonObjectPL("outerkey1") >=>
+    jObjectPL >=>
+    jsonObjectPL("innerkey2") >=>
+    jStringPL
 
+    complexObjectPL.get(complexObject)
   }
 
 
@@ -34,21 +37,19 @@ object BasicUtils {
       ("outerkey2", jFalse) ->:
       jEmptyObject
 
-    var cursor = complexObject.hcursor
+    val aCursor = (complexObject.hcursor --\ "outerkey1" --\ "innerkey2")
 
-
-//TODO: RETURN Value of outerkey1->innerkey2
-    return Option("")
-
+    aCursor.as[String].toOption
   }
 
   def fromStringToJson(str: String): Json = {
-    //TODO: parse json string to JsonObject
-     jString(str)
+     Parse.parse(str) match {
+       case \/-(a) => a
+     }
   }
 
   def fromJsonToScalaType(json: Json) = {
-    //TODO: convert Json to scala type
+    json.assoc
   }
 
 }
